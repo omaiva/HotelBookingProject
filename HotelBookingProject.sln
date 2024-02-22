@@ -5,15 +5,15 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D346A2D-9C37-4339-A379-C00CC4328FAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProject.Domain", "src\BookingProject.Domain\BookingProject.Domain.csproj", "{B46BD470-7CA1-4075-994B-8AE5045AE569}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBookingProject.Domain", "src\BookingProject.Domain\HotelBookingProject.Domain.csproj", "{B46BD470-7CA1-4075-994B-8AE5045AE569}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B9EA6A76-C0DE-4A7C-9D10-27C74A65FC40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProjects.Tests", "tests\BookingProjects.Tests\BookingProjects.Tests.csproj", "{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBookingProject.Tests", "tests\BookingProjects.Tests\HotelBookingProject.Tests.csproj", "{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProject.WebAPI", "src\BookingProject.WebAPI\BookingProject.WebAPI.csproj", "{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBookingProject.WebAPI", "src\BookingProject.WebAPI\HotelBookingProject.WebAPI.csproj", "{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProject.WebUI", "src\BookingProject.WebUI\BookingProject.WebUI.csproj", "{428ECF98-18DD-43F1-90D5-CE439724B691}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBookingProject.WebUI", "src\BookingProject.WebUI\HotelBookingProject.WebUI.csproj", "{428ECF98-18DD-43F1-90D5-CE439724B691}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,5 +46,8 @@ Global
 		{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B} = {B9EA6A76-C0DE-4A7C-9D10-27C74A65FC40}
 		{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46} = {8D346A2D-9C37-4339-A379-C00CC4328FAC}
 		{428ECF98-18DD-43F1-90D5-CE439724B691} = {8D346A2D-9C37-4339-A379-C00CC4328FAC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {682DFDC1-E288-463F-B75D-87ACAAAFFF1A}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D346A2D-9C37-4339-A379-C00CC4328FAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProject.Domain", "src\BookingProject.Domain\BookingProject.Domain.csproj", "{B46BD470-7CA1-4075-994B-8AE5045AE569}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B9EA6A76-C0DE-4A7C-9D10-27C74A65FC40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProjects.Tests", "tests\BookingProjects.Tests\BookingProjects.Tests.csproj", "{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProject.WebAPI", "src\BookingProject.WebAPI\BookingProject.WebAPI.csproj", "{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingProject.WebUI", "src\BookingProject.WebUI\BookingProject.WebUI.csproj", "{428ECF98-18DD-43F1-90D5-CE439724B691}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B46BD470-7CA1-4075-994B-8AE5045AE569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B46BD470-7CA1-4075-994B-8AE5045AE569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B46BD470-7CA1-4075-994B-8AE5045AE569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B46BD470-7CA1-4075-994B-8AE5045AE569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{428ECF98-18DD-43F1-90D5-CE439724B691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428ECF98-18DD-43F1-90D5-CE439724B691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428ECF98-18DD-43F1-90D5-CE439724B691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428ECF98-18DD-43F1-90D5-CE439724B691}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B46BD470-7CA1-4075-994B-8AE5045AE569} = {8D346A2D-9C37-4339-A379-C00CC4328FAC}
+		{4D8C8C9D-DE6B-4AB7-9FE3-7620EEE4560B} = {B9EA6A76-C0DE-4A7C-9D10-27C74A65FC40}
+		{8F2F3E72-43A2-4A73-AB88-EB26E76F8B46} = {8D346A2D-9C37-4339-A379-C00CC4328FAC}
+		{428ECF98-18DD-43F1-90D5-CE439724B691} = {8D346A2D-9C37-4339-A379-C00CC4328FAC}
+	EndGlobalSection
+EndGlobal

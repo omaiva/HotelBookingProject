@@ -13,13 +13,15 @@ namespace HotelBookingProject.Infrastructure.Data
         public ProjectContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<City> Cities { get; set; }
+        public DbSet<User> Cities { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<HotelRoom> HotelRooms { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProjectContext).Assembly);
+
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -8,7 +8,7 @@ namespace HotelBookingProject.Domain.Entities
 {
     public class HotelRoom
     {
-        public int RoomId { get; set; }
+        public int Id { get; set; }
         public int RoomNumber { get; set; }
         public int Floor {  get; set; }
         public int NumberOfBeds { get; set; }
@@ -17,6 +17,8 @@ namespace HotelBookingProject.Domain.Entities
         public bool HasContidioning { get; set; }
         public bool HasWiFi {  get; set; }
         public int HotelId { get; set; }
+        public virtual Hotel Hotel { get; set; }
         public double Price { get; set; }
+        public virtual List<Booking> Bookings {  get; set; }
     }
 }

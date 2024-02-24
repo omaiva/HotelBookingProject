@@ -12,9 +12,8 @@ namespace HotelBookingProject.Domain.Entities
         public string Name { get; set;}
         public string Description { get; set;}
         public int NumberOfFloors {  get; set;}
-        public City HotelCity { get; set;}
+        public int CityId { get; set; }
         public string Street { get; set;}
         public int HouseNumber {  get; set;}
-
     }
 }

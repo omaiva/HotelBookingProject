@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,7 @@ namespace HotelBookingProject.Infrastructure.Data
                 var dbContext = scope.ServiceProvider.GetRequiredService<ProjectContext>();
                 var database = dbContext.Database;
 
-                await database.EnsureDeletedAsync();
-                await database.EnsureCreatedAsync();
+                await database.MigrateAsync();
             }
         }
     }

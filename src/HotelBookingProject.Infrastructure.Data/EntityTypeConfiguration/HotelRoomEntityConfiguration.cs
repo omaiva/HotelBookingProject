@@ -31,6 +31,9 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
 
             builder.Property(p => p.IsAvailable)
                 .HasDefaultValue(false);
+
+            builder.Property(p => p.Price)
+                .HasColumnType("decimal");
         }
     }
 }

@@ -1,3 +1,5 @@
+using HotelBookingProject.Infrastructure.Data;
+
 namespace BookingProject.WebUI
 {
     public class Program
@@ -8,6 +10,7 @@ namespace BookingProject.WebUI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddStorage(builder.Configuration);
 
             var app = builder.Build();
 

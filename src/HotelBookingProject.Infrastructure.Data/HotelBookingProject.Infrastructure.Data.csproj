@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HotelBookingProject.Domain\HotelBookingProject.Domain.csproj" />
-    <ProjectReference Include="..\HotelBookingProject.WebUI\HotelBookingProject.WebUI.csproj" />
+    <ProjectReference Include="..\HotelBookingProject.WebAPI\HotelBookingProject.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

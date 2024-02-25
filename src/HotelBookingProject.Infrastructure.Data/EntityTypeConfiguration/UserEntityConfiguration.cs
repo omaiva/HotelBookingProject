@@ -13,7 +13,7 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            
+
         }
     }
 }

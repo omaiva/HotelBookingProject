@@ -19,6 +19,18 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
                 .WithMany(p => p.HotelRooms)
                 .HasForeignKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(p => p.HasBath)
+                .HasDefaultValue(false);
+
+            builder.Property(p => p.HasWiFi)
+                .HasDefaultValue(false);
+
+            builder.Property(p => p.HasContidioning)
+                .HasDefaultValue(false);
+
+            builder.Property(p => p.IsAvailable)
+                .HasDefaultValue(false);
         }
     }
 }

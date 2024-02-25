@@ -16,9 +16,10 @@ namespace HotelBookingProject.Domain.Entities
         public bool HasBath {  get; set; }
         public bool HasContidioning { get; set; }
         public bool HasWiFi {  get; set; }
+        public bool IsAvailable { get; set; }
+        public decimal Price { get; set; }
         public int HotelId { get; set; }
         public virtual Hotel Hotel { get; set; }
-        public double Price { get; set; }
         public virtual List<Booking> Bookings {  get; set; }
     }
 }

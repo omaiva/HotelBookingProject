@@ -18,12 +18,12 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
             builder.HasOne(p => p.User)
                 .WithMany(p => p.Bookings)
                 .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.HotelRoom)
                 .WithMany(p => p.Bookings)
                 .HasForeignKey(p => p.HotelRoomId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

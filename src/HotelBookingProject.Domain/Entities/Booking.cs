@@ -10,9 +10,9 @@ namespace HotelBookingProject.Domain.Entities
     {
         public int Id { get; set; }
         public int HotelRoomId {  get; set; }
-        public virtual HotelRoom HotelRoom { get; set; }
+        public HotelRoom HotelRoom { get; set; }
         public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public User User { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }

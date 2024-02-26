@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HotelBookingProject.Domain\HotelBookingProject.Domain.csproj" />
-    <ProjectReference Include="..\HotelBookingProject.WebAPI\HotelBookingProject.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

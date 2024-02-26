@@ -19,7 +19,7 @@ namespace HotelBookingProject.Domain.Entities
         public bool IsAvailable { get; set; }
         public decimal Price { get; set; }
         public int HotelId { get; set; }
-        public virtual Hotel Hotel { get; set; }
-        public virtual List<Booking> Bookings {  get; set; }
+        public Hotel Hotel { get; set; }
+        public List<Booking> Bookings {  get; set; }
     }
 }

@@ -1,4 +1,7 @@
+using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingProject.WebUI
 {
@@ -7,6 +10,12 @@ namespace BookingProject.WebUI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("LocalDbSqlServer") ?? throw new InvalidOperationException("Connection string 'LocalDbSqlServer' not found.");
+
+            builder.Services.AddDbContext<ProjectContext>(options => options.UseSqlServer(connectionString));
+
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ProjectContext>();
+            
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -36,6 +45,8 @@ namespace BookingProject.WebUI
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapRazorPages();
 
             app.Run();
         }

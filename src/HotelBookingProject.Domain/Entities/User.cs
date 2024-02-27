@@ -9,8 +9,8 @@ namespace HotelBookingProject.Domain.Entities
 {
     public class User : IdentityUser<int>
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }     
+        public string FirstName { get; set; }
+        public string LastName { get; set; }     
         public List<Booking> Bookings { get; set; }
     }
 }

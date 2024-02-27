@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace HotelBookingProject.Infrastructure.Data
 {
-    public class ProjectContext : IdentityDbContext
+    public class ProjectContext : IdentityDbContext<User, IdentityRole<int>,int>
     {
         public ProjectContext(DbContextOptions options) : base(options) { }
 

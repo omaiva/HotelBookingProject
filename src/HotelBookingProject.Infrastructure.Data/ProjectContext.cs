@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HotelBookingProject.Infrastructure.Data
 {
-    public class ProjectContext : DbContext
+    public class ProjectContext : IdentityDbContext
     {
         public ProjectContext(DbContextOptions options) : base(options) { }
 

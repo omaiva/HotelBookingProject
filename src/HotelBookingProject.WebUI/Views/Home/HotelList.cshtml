@@ -1,0 +1,9 @@
+﻿@model IEnumerable<HotelBookingProject.Domain.Entities.Hotel>
+
+@foreach (var hotel in Model)
+{
+    <div>
+        <h4>@hotel.Name</h4>
+        <p>@hotel.Description</p>
+    </div>
+}

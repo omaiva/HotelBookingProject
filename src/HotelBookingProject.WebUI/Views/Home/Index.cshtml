@@ -1,8 +1,68 @@
-﻿@{
+﻿@model (List<HotelBookingProject.Domain.Entities.City> Cities, List<HotelBookingProject.Domain.Entities.Hotel> Hotels)
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 56px;
+        bottom:10vh;
+        left: 0;
+        width: 20%; 
+        background: linear-gradient(to bottom, #add8e6, #b0e0e6); 
+        padding: 20px;
+        overflow-y: auto;
+        box-sizing: border-box; 
+    }
+
+    .list-group-item {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .content {
+        margin-left: 20%;
+        padding: 20px;
+    }
+</style>
+
+<div class="sidebar">
+    <h3>Cities</h3>
+    <div class="list-group">
+        @foreach (var item in Model.Cities)
+        {
+            <a class="list-group-item list-group-item-action" onclick="selectElement('@item.Id')">@item.Name</a>
+        }
+    </div>
 </div>
+
+<div class="content">
+    <partial name="HotelList" model="@Model.Hotels" />
+</div>
+
+<script>
+    function selectElement(cityId) {
+        console.log("Selected city with ID:", cityId);
+
+        $.ajax({
+            url: '@Url.Action("GetHotelsByCityId", "Home")',
+            type: 'GET',
+            data: { cityId: cityId },
+            success: function (data) {
+                $('.content').html(data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching hotels:", error);
+            }
+        });
+    }
+</script>

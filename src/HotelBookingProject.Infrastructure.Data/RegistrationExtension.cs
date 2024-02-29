@@ -11,9 +11,9 @@ namespace HotelBookingProject.Infrastructure.Data
 {
     public static class RegistrationExtension
     {
-        public static void AddStorage(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static void AddStorage(this IServiceCollection serviceCollection, string connectionString)
         {
-            serviceCollection.AddDbContext<ProjectContext>(options => options.UseSqlServer(configuration["ConnectionStrings:LocalDbSqlServer"]));
+            serviceCollection.AddDbContext<ProjectContext>(options => options.UseSqlServer(connectionString));
         }
     }
 }

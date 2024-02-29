@@ -71,7 +71,10 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Hotel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -81,6 +84,9 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HouseNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -96,13 +102,20 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("ImageId");
+
                     b.ToTable("Hotels");
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.HotelRoom", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -145,7 +158,26 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HotelId");
+
                     b.ToTable("HotelRooms");
+                });
+
+            modelBuilder.Entity("HotelBookingProject.Domain.Entities.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.User", b =>
@@ -387,18 +419,26 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                 {
                     b.HasOne("HotelBookingProject.Domain.Entities.City", "City")
                         .WithMany("Hotels")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelBookingProject.Domain.Entities.Image", "Image")
+                        .WithMany("Hotels")
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("City");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.HotelRoom", b =>
                 {
                     b.HasOne("HotelBookingProject.Domain.Entities.Hotel", "Hotel")
                         .WithMany("HotelRooms")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -469,6 +509,11 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.HotelRoom", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("HotelBookingProject.Domain.Entities.Image", b =>
+                {
+                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.User", b =>

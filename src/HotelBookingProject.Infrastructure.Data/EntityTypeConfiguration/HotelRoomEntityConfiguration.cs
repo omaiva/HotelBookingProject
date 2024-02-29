@@ -17,7 +17,7 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
 
             builder.HasOne(p => p.Hotel)
                 .WithMany(p => p.HotelRooms)
-                .HasForeignKey(p => p.Id)
+                .HasForeignKey(p => p.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.HasBath)

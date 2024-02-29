@@ -11,7 +11,9 @@ namespace BookingProject.WebUI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddStorage(builder.Configuration);
+            var connectionString = builder.Configuration.GetConnectionString("LocalDbSqlServer") ?? throw new InvalidOperationException("Connection string 'LocalDbSqlServer' not found.");
+
+            builder.Services.AddStorage(connectionString);
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ProjectContext>();
             

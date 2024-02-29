@@ -17,7 +17,12 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
 
             builder.HasOne(p => p.City)
                 .WithMany(p => p.Hotels)
-                .HasForeignKey(p => p.Id)
+                .HasForeignKey(p => p.CityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(p => p.Image)
+                .WithMany(p => p.Hotels)
+                .HasForeignKey(p => p.ImageId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

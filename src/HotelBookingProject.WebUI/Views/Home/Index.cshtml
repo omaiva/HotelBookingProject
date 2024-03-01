@@ -1,4 +1,4 @@
-﻿@model (List<HotelBookingProject.Domain.Entities.City> Cities, List<HotelBookingProject.Domain.Entities.Hotel> Hotels)
+﻿@model HotelBookingProject.WebUI.Models.IndexViewModel;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -18,7 +18,7 @@
         bottom:10vh;
         left: 0;
         width: 20%; 
-        background: linear-gradient(to bottom, #add8e6, #b0e0e6); 
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), lightblue), url('/images/Backgrounds/city_background.jpg');
         padding: 20px;
         overflow-y: auto;
         box-sizing: border-box; 
@@ -27,11 +27,17 @@
     .list-group-item {
         margin-top: 10px;
         margin-bottom: 10px;
+        border-radius: 5%;
     }
 
     .content {
         margin-left: 20%;
         padding: 20px;
+    }
+
+    h3{
+        color: white;
+        text-shadow: 2px 2px 4px #000000;
     }
 </style>
 
@@ -46,7 +52,7 @@
 </div>
 
 <div class="content">
-    <partial name="HotelList" model="@Model.Hotels" />
+    <partial name="HotelList" model="new HotelBookingProject.WebUI.Models.HotelListViewModel(){Hotels = Model.Hotels, Images = Model.Images}" />
 </div>
 
 <script>

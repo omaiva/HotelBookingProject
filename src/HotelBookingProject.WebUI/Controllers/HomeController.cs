@@ -1,6 +1,7 @@
 using BookingProject.WebUI.Models;
 using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Infrastructure.Data;
+using HotelBookingProject.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -20,18 +21,27 @@ namespace BookingProject.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var cities = await _context.Cities.ToListAsync();
-            var defaultHotels = await _context.Hotels.Where(h => h.CityId == 1).ToListAsync();
+            var model = new IndexViewModel()
+            {
+                Cities = await _context.Cities.ToListAsync(),
+                Hotels = await _context.Hotels.Where(h => h.CityId == 1).ToListAsync(),
+                Images = await _context.Images.ToListAsync()
+            };
 
-            return View((Cities: cities, Hotels: defaultHotels));
+            return View(model);
         }
 
         public async Task<IActionResult> GetHotelsByCityId(int cityId)
         {
-            var hotels = await _context.Hotels
+            var model = new HotelListViewModel()
+            {
+                Hotels = await _context.Hotels
                                 .Where(h => h.CityId == cityId)
-                                .ToListAsync();
-            return PartialView("HotelList", hotels);
+                                .ToListAsync(),
+                Images = await _context.Images.ToListAsync()
+            };
+            
+            return PartialView("HotelList", model);
         }
 
         public IActionResult Privacy()

@@ -1,9 +1,62 @@
-﻿@model IEnumerable<HotelBookingProject.Domain.Entities.Hotel>
+﻿@model HotelBookingProject.WebUI.Models.HotelListViewModel;
 
-@foreach (var hotel in Model)
+<style>
+
+    .hotel-info {
+        display: flex;
+        align-items: center; 
+        margin-bottom: 20px; 
+    }
+
+    .hotel-image {
+        width: 30%; 
+        height: auto;
+        margin-right: 20px;
+    }
+
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%; 
+    }
+
+    .text-content {
+        align-self: flex-start;
+    }
+
+    .see-more-button {
+        align-self:flex-end;
+        margin-top:auto;
+        padding: 5px 10px; 
+        font-size: 1rem; 
+        cursor: pointer;
+        border-radius: 15px; 
+        transition: all 0.3s ease; 
+        background-color: rgba(127, 219, 255, 0.8);
+        color: black; 
+        border: none;
+        transform: scale(1);
+
+    }
+
+    .see-more-button:hover {
+        background-color: lightblue; 
+        transform: scale(0.95);
+    }
+
+</style>
+
+@foreach (var hotel in Model.Hotels)
 {
-    <div>
-        <h4>@hotel.Name</h4>
-        <p>@hotel.Description</p>
+    <div class="hotel-info">
+        <img src="@Url.Content(Model.Images.Where(x => x.Id == hotel.ImageId).Select(x => x.Path).First())" alt="Hotel Image" class="hotel-image" />
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h4>@hotel.Name</h4>
+                <p>@hotel.Description</p>
+            </div>
+            <button class="see-more-button">See more</button>
+        </div>
     </div>
 }

@@ -48,7 +48,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.City", b =>
@@ -65,7 +65,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Hotel", b =>
@@ -106,7 +106,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.HotelRoom", b =>
@@ -160,7 +160,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("HotelRooms");
+                    b.ToTable("HotelRooms", (string)null);
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Image", b =>
@@ -177,7 +177,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.User", b =>

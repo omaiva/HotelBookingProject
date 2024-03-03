@@ -2,6 +2,7 @@ using BookingProject.WebUI.Models;
 using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Infrastructure.Data;
 using HotelBookingProject.WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;

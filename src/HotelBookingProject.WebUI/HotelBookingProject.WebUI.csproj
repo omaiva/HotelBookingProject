@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HotelBookingProject.Application\HotelBookingProject.Application.csproj" />
     <ProjectReference Include="..\HotelBookingProject.Infrastructure.Data\HotelBookingProject.Infrastructure.Data.csproj" />
   </ItemGroup>
 

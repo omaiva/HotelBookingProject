@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingProject.Infrastructure.Data
 {
-    public static class SeedingExtension
+    public static class SeedingDatabaseExtension
     {
         public static async Task DataBaseEnsureCreated(this IApplicationBuilder applicationBuilder)
         {

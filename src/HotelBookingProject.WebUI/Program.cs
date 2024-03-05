@@ -1,3 +1,5 @@
+using HotelBookingProject.Application.Services;
+using HotelBookingProject.Application.Interfaces;
 using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -16,13 +18,14 @@ namespace BookingProject.WebUI
             builder.Services.AddStorage(connectionString);
             
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
+                .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<ProjectContext>();
-            
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
             builder.Services.AddRazorPages();
+
+            builder.Services.AddScoped<IHotelService, HotelService>();
 
             var app = builder.Build();
 
@@ -36,6 +39,7 @@ namespace BookingProject.WebUI
             else
             {
                 app.DataBaseEnsureCreated();
+                app.RolesEnsureCreated();
             }
 
             app.UseHttpsRedirection();

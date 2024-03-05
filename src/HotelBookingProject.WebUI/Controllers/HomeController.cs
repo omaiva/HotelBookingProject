@@ -1,10 +1,7 @@
 using BookingProject.WebUI.Models;
-using HotelBookingProject.Domain.Entities;
-using HotelBookingProject.Infrastructure.Data;
+using HotelBookingProject.Application.Interfaces;
 using HotelBookingProject.WebUI.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace BookingProject.WebUI.Controllers
@@ -12,34 +9,34 @@ namespace BookingProject.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ProjectContext _context;
+        private readonly IHotelService _hotelService;
 
-        public HomeController(ILogger<HomeController> logger, ProjectContext context)
+        public HomeController(ILogger<HomeController> logger, IHotelService hotelService)
         {
-            _context = context;
             _logger = logger;
+            _hotelService = hotelService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var model = new IndexViewModel()
             {
-                Cities = await _context.Cities.ToListAsync(),
-                Hotels = await _context.Hotels.Where(h => h.CityId == 1).ToListAsync(),
-                Images = await _context.Images.ToListAsync()
+                Cities = await _hotelService.GetCities(),
+                Hotels = await _hotelService.GetHotelsByFirstId(),
+                Images = await _hotelService.GetImages()
             };
 
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetHotelsByCityId(int cityId)
         {
             var model = new HotelListViewModel()
             {
-                Hotels = await _context.Hotels
-                                .Where(h => h.CityId == cityId)
-                                .ToListAsync(),
-                Images = await _context.Images.ToListAsync()
+                Hotels = await _hotelService.GetHotelsById(cityId),
+                Images = await _hotelService.GetImages()
             };
             
             return PartialView("HotelList", model);

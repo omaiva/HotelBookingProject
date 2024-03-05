@@ -1,0 +1,63 @@
+﻿@model HotelBookingProject.WebUI.Models.SelectedHotelViewMode;
+
+@{
+    ViewData["Title"] = "SelectedHotel";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">@Model.Hotel.Name</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Url.Content(Model.Images.Where(i => i.Id == Model.Hotel.Id).Select(p => p.Path).First())" alt="Hotel Image" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h3>Description</h3>
+            <p>@Model.Hotel.Description</p>
+            <ul class="list-unstyled">
+                <li><strong>Number of Floors:</strong> @Model.Hotel.NumberOfFloors</li>
+                <li><strong>City:</strong> @Model.City.Name</li>
+                <li><strong>Address:</strong> @Model.Hotel.Street, @Model.Hotel.HouseNumber</li>
+                <li id="map"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3>Rooms</h3>
+        @if (Model.HotelRooms != null && Model.HotelRooms.Any())
+        {
+            <div class="row">
+                @foreach (var room in Model.HotelRooms)
+                {
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Room @room.Id</h5>
+                                <p class="card-text"><strong>Description:</strong> @room.Description</p>
+                                <p class="card-text"><strong>Price per night:</strong> @room.Price $</p>
+                                <p class="card-text"><strong>Floor:</strong> @room.Floor</p>
+                                <p class="card-text"><strong>Features:</strong> @string.Join(", ", room.Floor)</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No rooms available.</p>
+        }
+    </div>
+</div>
+
+@* <script src="https://maps.googleapis.com/maps/api/js?key=INSERT_YOUR_API_KEY&callback=initMap&libraries=places&v=weekly&solution_channel=GMP_CCS_placedetails_v1"
+        async defer></script>
+<script>
+    var map;
+    function intiMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 8
+        });
+    }
+</script> *@

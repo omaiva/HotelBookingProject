@@ -23,7 +23,7 @@ namespace BookingProject.WebUI.Controllers
             var model = new IndexViewModel()
             {
                 Cities = await _hotelService.GetCities(),
-                Hotels = await _hotelService.GetHotelsByFirstId(),
+                Hotels = await _hotelService.GetHotelsById(1),
                 Images = await _hotelService.GetImages()
             };
 

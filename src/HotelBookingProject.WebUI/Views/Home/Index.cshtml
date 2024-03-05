@@ -30,6 +30,16 @@
         border-radius: 5%;
     }
 
+    .selected-item {
+        background-color: lightgray;
+        color: black;
+    }
+
+    .initial-selected-item {
+        background-color: lightgray;
+        color: black; 
+    }
+
     .content {
         margin-left: 20%;
         padding: 20px;
@@ -46,7 +56,7 @@
     <div class="list-group">
         @foreach (var item in Model.Cities)
         {
-            <a class="list-group-item list-group-item-action" onclick="selectElement('@item.Id')">@item.Name</a>
+            <a class="list-group-item list-group-item-action" data-city-id="@item.Id" onclick="selectElement('@item.Id')">@item.Name</a>
         }
     </div>
 </div>
@@ -55,9 +65,20 @@
     <partial name="HotelList" model="new HotelBookingProject.WebUI.Models.HotelListViewModel(){Hotels = Model.Hotels, Images = Model.Images}" />
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    $(document).ready(function () {
+
+        $('.list-group-item[data-city-id="1"]').addClass('initial-selected-item');
+    });
+
     function selectElement(cityId) {
         console.log("Selected city with ID:", cityId);
+
+        $('.list-group-item').removeClass('selected-item');
+        $('.list-group-item').removeClass('initial-selected-item');
+
+        $(`.list-group-item[data-city-id='${cityId}']`).addClass('selected-item');
 
         $.ajax({
             url: '@Url.Action("GetHotelsByCityId", "Home")',

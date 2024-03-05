@@ -11,12 +11,15 @@ namespace HotelBookingProject.Application.Interfaces
 {
     public interface IHotelService
     {
+        public Task<Hotel> GetHotelById(int id);
         public Task<IEnumerable<Hotel>> GetHotelsById(int id);
-
-        public Task<IEnumerable<Hotel>> GetHotelsByFirstId();
 
         public Task<IEnumerable<City>> GetCities();
 
+        public Task<City> GetCityById(int id);
+
         public Task<IEnumerable<Image>> GetImages();
+
+        public Task<IEnumerable<HotelRoom>> GetRoomsByHotelId(int id);
     }
 }

@@ -20,6 +20,11 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
                 .HasForeignKey(p => p.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(p => p.Image)
+                .WithMany(p => p.HotelRooms)
+                .HasForeignKey(p => p.ImageId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.Property(p => p.HasBath)
                 .HasDefaultValue(false);
 
@@ -33,7 +38,14 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
                 .HasDefaultValue(false);
 
             builder.Property(p => p.Price)
-                .HasColumnType("decimal");
+                .HasColumnType("decimal")
+                .HasPrecision(18,6);
+
+            builder.HasData(
+                new HotelRoom() { Id=1, Name= "Standard double room with 1 bed",
+                    Description= "Spacious room with elegant interiors, satellite TV and a private bathroom with bathrobes, slippers and free toiletries.",
+                    NumberOfBeds=2, HasBath=true, HasContidioning=true,HasWiFi=true,IsAvailable=true,Price = 100,HotelId=1,ImageId=2 }
+                );
         }
     }
 }

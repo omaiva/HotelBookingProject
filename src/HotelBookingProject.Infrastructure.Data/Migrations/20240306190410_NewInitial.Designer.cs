@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingProject.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240229204456_NewInitial")]
+    [Migration("20240306190410_NewInitial")]
     partial class NewInitial
     {
         /// <inheritdoc />
@@ -64,11 +64,43 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Kyiv"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Lviv"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Odessa"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Kharkiv"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Dnipro"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Zaporizhzhia"
+                        });
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Hotel", b =>
@@ -92,6 +124,14 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Latitude")
+                        .HasPrecision(18, 14)
+                        .HasColumnType("decimal");
+
+                    b.Property<decimal>("Longitude")
+                        .HasPrecision(18, 14)
+                        .HasColumnType("decimal");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -110,6 +150,21 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     b.HasIndex("ImageId");
 
                     b.ToTable("Hotels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CityId = 1,
+                            Description = "\"Opera\" is one of the top best hotels in Kiev not only by location, but also by all the main criteria for choosing premium-class accommodation. In addition to the luxurious architecture of the building itself, there are 140 elegant and stylized for opera performances rooms for every taste - one-room, with a living area, suites in Japanese, French and Moroccan style.",
+                            HouseNumber = 53,
+                            ImageId = 1,
+                            Latitude = 50.44822300456948m,
+                            Longitude = 30.49996667023849m,
+                            Name = "Opera Hotel",
+                            NumberOfFloors = 4,
+                            Street = "Khmelnitskogo"
+                        });
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.HotelRoom", b =>
@@ -123,9 +178,6 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Floor")
-                        .HasColumnType("int");
 
                     b.Property<bool>("HasBath")
                         .ValueGeneratedOnAdd()
@@ -145,25 +197,48 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsAvailable")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("NumberOfBeds")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 6)
                         .HasColumnType("decimal");
-
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
 
+                    b.HasIndex("ImageId");
+
                     b.ToTable("HotelRooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Spacious room with elegant interiors, satellite TV and a private bathroom with bathrobes, slippers and free toiletries.",
+                            HasBath = true,
+                            HasContidioning = true,
+                            HasWiFi = true,
+                            HotelId = 1,
+                            ImageId = 2,
+                            IsAvailable = true,
+                            Name = "Standard double room with 1 bed",
+                            NumberOfBeds = 2,
+                            Price = 100m
+                        });
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Image", b =>
@@ -181,6 +256,18 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Images");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Path = "/images/Hotels/opera_hotel.jpg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Path = "/images/Rooms/room1.jpg"
+                        });
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.User", b =>
@@ -429,7 +516,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     b.HasOne("HotelBookingProject.Domain.Entities.Image", "Image")
                         .WithMany("Hotels")
                         .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -445,7 +532,15 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HotelBookingProject.Domain.Entities.Image", "Image")
+                        .WithMany("HotelRooms")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Hotel");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -516,6 +611,8 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Image", b =>
                 {
+                    b.Navigation("HotelRooms");
+
                     b.Navigation("Hotels");
                 });
 

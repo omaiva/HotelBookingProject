@@ -8,6 +8,6 @@ namespace HotelBookingProject.Application.Interfaces
 {
     public interface IBookingService
     {
-        public 
+        
     }
 }

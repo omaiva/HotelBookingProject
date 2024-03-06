@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace HotelBookingProject.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
@@ -61,7 +63,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(20)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(30)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,10 +198,12 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfFloors = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HouseNumber = table.Column<int>(type: "int", nullable: false)
+                    HouseNumber = table.Column<int>(type: "int", nullable: false),
+                    Latitude = table.Column<decimal>(type: "decimal(18,14)", precision: 18, scale: 14, nullable: false),
+                    Longitude = table.Column<decimal>(type: "decimal(18,14)", precision: 18, scale: 14, nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,8 +218,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         name: "FK_Hotels_Images_ImageId",
                         column: x => x.ImageId,
                         principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -224,16 +227,16 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
-                    Floor = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfBeds = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HasBath = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     HasContidioning = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     HasWiFi = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18,6)", precision: 18, scale: 6, nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -244,6 +247,11 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotelRooms_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -271,6 +279,38 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         principalTable: "HotelRooms",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Kyiv" },
+                    { 2, "Lviv" },
+                    { 3, "Odessa" },
+                    { 4, "Kharkiv" },
+                    { 5, "Dnipro" },
+                    { 6, "Zaporizhzhia" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Images",
+                columns: new[] { "Id", "Path" },
+                values: new object[,]
+                {
+                    { 1, "/images/Hotels/opera_hotel.jpg" },
+                    { 2, "/images/Rooms/room1.jpg" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Hotels",
+                columns: new[] { "Id", "CityId", "Description", "HouseNumber", "ImageId", "Latitude", "Longitude", "Name", "NumberOfFloors", "Street" },
+                values: new object[] { 1, 1, "\"Opera\" is one of the top best hotels in Kiev not only by location, but also by all the main criteria for choosing premium-class accommodation. In addition to the luxurious architecture of the building itself, there are 140 elegant and stylized for opera performances rooms for every taste - one-room, with a living area, suites in Japanese, French and Moroccan style.", 53, 1, 50.44822300456948m, 30.49996667023849m, "Opera Hotel", 4, "Khmelnitskogo" });
+
+            migrationBuilder.InsertData(
+                table: "HotelRooms",
+                columns: new[] { "Id", "Description", "HasBath", "HasContidioning", "HasWiFi", "HotelId", "ImageId", "IsAvailable", "Name", "NumberOfBeds", "Price" },
+                values: new object[] { 1, "Spacious room with elegant interiors, satellite TV and a private bathroom with bathrobes, slippers and free toiletries.", true, true, true, 1, 2, true, "Standard double room with 1 bed", 2, 100m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -325,6 +365,11 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                 name: "IX_HotelRooms_HotelId",
                 table: "HotelRooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelRooms_ImageId",
+                table: "HotelRooms",
+                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_CityId",

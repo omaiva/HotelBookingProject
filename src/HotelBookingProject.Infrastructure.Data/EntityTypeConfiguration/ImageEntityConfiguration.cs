@@ -14,6 +14,11 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Image> builder)
         {
             builder.HasKey(p => p.Id);
+
+            builder.HasData(
+                new Image() { Id=1,Path= @"/images/Hotels/opera_hotel.jpg" },
+                new Image() { Id = 2, Path = @"/images/Rooms/room1.jpg" }
+                );
         }
     }
 }

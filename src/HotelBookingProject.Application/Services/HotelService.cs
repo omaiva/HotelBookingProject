@@ -19,22 +19,50 @@ namespace HotelBookingProject.Application.Services
             _context = context;
         }
 
-        public async Task<Hotel> GetHotelById(int id) =>
-             await _context.Hotels.Where(h => h.Id == id).FirstAsync();
+        public async Task<Hotel> GetHotelById(int id)
+        {
+            var hotels = await _context.Hotels.AsNoTracking().ToListAsync();
 
-        public async Task<IEnumerable<Hotel>> GetHotelsById(int id) =>
-            await _context.Hotels.Where(h => h.CityId == id).ToListAsync();
+            return hotels.First(h => h.Id == id);
+        }
+             
 
-        public async Task<IEnumerable<City>> GetCities() =>
-             await _context.Cities.ToListAsync();
+        public async Task<IEnumerable<Hotel>> GetHotelsById(int id)
+        {
+            var hotels = await _context.Hotels.AsNoTracking().ToListAsync(); 
 
-        public async Task<City> GetCityById(int id) =>
-            await _context.Cities.Where(c => c.Id == id).FirstAsync();
+            return hotels.Where(h => h.CityId == id);
+        }
+            
 
-        public async Task<IEnumerable<Image>> GetImages() =>
-             await _context.Images.ToListAsync();
+        public async Task<IEnumerable<City>> GetCities()
+        {
+            var cities = await _context.Cities.AsNoTracking().ToListAsync();
 
-        public async Task<IEnumerable<HotelRoom>> GetRoomsByHotelId(int id) =>
-            await _context.HotelRooms.Where(r => r.HotelId == id).ToListAsync();
+            return cities;
+        }
+             
+
+        public async Task<City> GetCityById(int id)
+        {
+            var cities = await _context.Cities.AsNoTracking().ToListAsync();
+
+            return cities.First(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Image>> GetImages()
+        {
+            var images = await _context.Images.AsNoTracking().ToListAsync();
+
+            return images;
+        }
+
+        public async Task<IEnumerable<HotelRoom>> GetRoomsByHotelId(int id)
+        {
+            var rooms = await _context.HotelRooms.AsNoTracking().ToListAsync();
+
+            return rooms.Where(r => r.HotelId == id);
+        }
+            
     }
 }

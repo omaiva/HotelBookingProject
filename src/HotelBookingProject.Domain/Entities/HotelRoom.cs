@@ -9,8 +9,7 @@ namespace HotelBookingProject.Domain.Entities
     public class HotelRoom
     {
         public int Id { get; set; }
-        public int RoomNumber { get; set; }
-        public int Floor {  get; set; }
+        public string Name { get; set; }
         public int NumberOfBeds { get; set; }
         public string Description { get; set; }
         public bool HasBath {  get; set; }
@@ -20,6 +19,8 @@ namespace HotelBookingProject.Domain.Entities
         public decimal Price { get; set; }
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
+        public int ImageId {  get; set; }
+        public Image Image { get; set; }
         public List<Booking> Bookings {  get; set; }
     }
 }

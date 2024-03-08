@@ -39,7 +39,7 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
 
             builder.Property(p => p.Price)
                 .HasColumnType("decimal")
-                .HasPrecision(18,6);
+                .HasPrecision(18,2);
 
             builder.HasData(
                 new HotelRoom() { Id=1, Name= "Standard double room with 1 bed",

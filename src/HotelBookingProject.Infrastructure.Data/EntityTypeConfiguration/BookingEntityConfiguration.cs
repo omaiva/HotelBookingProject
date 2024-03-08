@@ -24,6 +24,11 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
                 .WithMany(p => p.Bookings)
                 .HasForeignKey(p => p.HotelRoomId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(p => p.BookingStatus)
+                .WithMany(p => p.Bookings)
+                .HasForeignKey(p => p.BookingStatusId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

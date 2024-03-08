@@ -13,6 +13,8 @@ namespace HotelBookingProject.Domain.Entities
         public HotelRoom HotelRoom { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
+        public int BookingStatusId { get; set; }
+        public BookingStatus BookingStatus { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }

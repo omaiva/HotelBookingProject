@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingProject.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240306190410_NewInitial")]
-    partial class NewInitial
+    [Migration("20240307170450_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BookingStatusId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -47,11 +50,47 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookingStatusId");
+
                     b.HasIndex("HotelRoomId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("HotelBookingProject.Domain.Entities.BookingStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookingStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Active"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Closed"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Canceled"
+                        });
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.City", b =>
@@ -213,7 +252,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 6)
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal");
 
                     b.HasKey("Id");
@@ -488,6 +527,12 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.Booking", b =>
                 {
+                    b.HasOne("HotelBookingProject.Domain.Entities.BookingStatus", "BookingStatus")
+                        .WithMany("Bookings")
+                        .HasForeignKey("BookingStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("HotelBookingProject.Domain.Entities.HotelRoom", "HotelRoom")
                         .WithMany("Bookings")
                         .HasForeignKey("HotelRoomId")
@@ -499,6 +544,8 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("BookingStatus");
 
                     b.Navigation("HotelRoom");
 
@@ -592,6 +639,11 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HotelBookingProject.Domain.Entities.BookingStatus", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("HotelBookingProject.Domain.Entities.City", b =>

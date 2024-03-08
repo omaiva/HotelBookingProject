@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelBookingProject.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class NewInitial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,19 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.CheckConstraint("CK_User_Email_Format", "\r\n            Email LIKE '%@%.%'");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookingStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookingStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +247,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                     HasContidioning = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     HasWiFi = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    Price = table.Column<decimal>(type: "decimal(18,6)", precision: 18, scale: 6, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: false),
                     ImageId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -262,6 +275,7 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelRoomId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    BookingStatusId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -274,10 +288,25 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Bookings_BookingStatuses_BookingStatusId",
+                        column: x => x.BookingStatusId,
+                        principalTable: "BookingStatuses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Bookings_HotelRooms_HotelRoomId",
                         column: x => x.HotelRoomId,
                         principalTable: "HotelRooms",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "BookingStatuses",
+                columns: new[] { "Id", "Description" },
+                values: new object[,]
+                {
+                    { 1, "Active" },
+                    { 2, "Closed" },
+                    { 3, "Canceled" }
                 });
 
             migrationBuilder.InsertData(
@@ -352,6 +381,11 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_BookingStatusId",
+                table: "Bookings",
+                column: "BookingStatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_HotelRoomId",
                 table: "Bookings",
                 column: "HotelRoomId");
@@ -408,6 +442,9 @@ namespace HotelBookingProject.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "BookingStatuses");
 
             migrationBuilder.DropTable(
                 name: "HotelRooms");

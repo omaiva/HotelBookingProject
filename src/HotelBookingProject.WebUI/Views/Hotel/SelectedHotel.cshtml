@@ -1,24 +1,36 @@
-﻿@model HotelBookingProject.WebUI.Models.SelectedHotelViewMode;
+﻿@using Microsoft.AspNetCore.Identity;
+@using HotelBookingProject.Domain.Entities;
+@using HotelBookingProject.WebUI.Models;
+
+@model BookingModel;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "SelectedHotel";
+    var hotelModel = ViewBag.Hotel as SelectedHotelViewModel;
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/bookingFormStyle.css">
+</head>
+
 <div class="container mt-4">
-    <h2 class="mb-3">@Model.Hotel.Name</h2>
+    <h2 class="mb-3">@hotelModel.Hotel.Name</h2>
     <div class="row">
         <div class="col-md-6">
-            <img src="@Url.Content(Model.Images.Where(i => i.Id == Model.Hotel.Id).Select(p => p.Path).First())" alt="Hotel Image" class="img-fluid">
+            <img src="@Url.Content(hotelModel.Images.Where(i => i.Id == hotelModel.Hotel.Id).Select(p => p.Path).First())" alt="Hotel Image" class="img-fluid">
         </div>
         <div class="col-md-6">
             <h3>Description</h3>
-            <p>@Model.Hotel.Description</p>
+            <p>@hotelModel.Hotel.Description</p>
             <ul class="list-unstyled">
-                <li><strong>Number of Floors:</strong> @Model.Hotel.NumberOfFloors</li>
-                <li><strong>City:</strong> @Model.City.Name</li>
+                <li><strong>Number of Floors:</strong> @hotelModel.Hotel.NumberOfFloors</li>
+                <li><strong>City:</strong> @hotelModel.City.Name</li>
                 <li class="d-flex justify-content-between">
                     <div>
-                        <strong>Address:</strong> @Model.Hotel.Street, @Model.Hotel.HouseNumber
+                        <strong>Address:</strong> @hotelModel.Hotel.Street, @hotelModel.Hotel.HouseNumber
                     </div>
                     <div id="map" style="width: 300px; height: 300px;"></div>
                 </li>
@@ -28,23 +40,30 @@
 
     <div class="mt-5">
         <h3>Rooms</h3>
-        @if (Model.HotelRooms != null && Model.HotelRooms.Any())
+        @if (hotelModel.HotelRooms != null && hotelModel.HotelRooms.Any())
         {
             <div class="row">
-                @foreach (var room in Model.HotelRooms)
-                {
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Room @room.Id</h5>
-                                <p class="card-text"><strong>Description:</strong> @room.Description</p>
-                                <p class="card-text"><strong>Price per night:</strong> @room.Price $</p>
-                                <p class="card-text"><strong>Features:</strong> @string.Join(", ", $"Has wifi:{room.HasWiFi}")</p>
-                                <a href="@Url.Action("BookRoom", "Booking", new { roomId = room.Id })" class="btn btn-primary">Book</a>
-                            </div>
+            @foreach (var room in hotelModel.HotelRooms)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Room @room.Id</h5>
+                            <p class="card-text"><strong>Description:</strong> @room.Description</p>
+                            <p class="card-text"><strong>Price per night:</strong> @room.Price $</p>
+                            <p class="card-text"><strong>Features:</strong> @string.Join(", ", $"Has wifi:{room.HasWiFi}")</p>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="btn btn-primary @(room.IsAvailable ? "" : "disabled") book-room-btn" data-room-id="@room.Id" @(room.IsAvailable ? "" : "disabled='disabled'") >Book</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary @(room.IsAvailable ? "" : "disabled")" data-toggle="modal" data-target="#unauthorizedModal" @(room.IsAvailable ? "" : "disabled='disabled'")>Book</a>
+                    }
                         </div>
                     </div>
-                }
+                </div>
+            }
             </div>
         }
         else
@@ -54,14 +73,122 @@
     </div>
 </div>
 
+<div class="modal fade" id="unauthorizedModal" tabindex="-1" role="dialog" aria-labelledby="unauthorizedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unauthorizedModalLabel">Authorization Required</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You need to authorize to book a room. Please <a href="@Url.Action("Login", "Account")">login</a>.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bookingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="section">
+                <div class="section-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="booking-form">
+                                <div class="booking-bg"></div>
+                                <form id="bookingForm">
+                                    <div class="form-header">
+                                        <h2>Make your reservation</h2>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"> 
+                                            <div class="form-group">
+                                                <span class="form-label">Check In</span>
+                                                <input asp-for="StartDate" class="form-control" type="date" id="startDate" name="startDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                                                <span id="errorMessageStartDate" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"> 
+                                            <div class="form-group">
+                                                <span class="form-label">Check Out</span>
+                                                <input asp-for="EndDate" class="form-control" type="date" id="endDate" name="endDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                                                <span id="errorMessageEndDate" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" asp-for="HotelRoomId" name="HotelRoomId" id="room-id"/>
+                                    <input type="hidden" asp-for="HotelId" />
+                                    <div class="form-btn">
+                                        <button type="submit" class="submit-btn">Book Now</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO70OxnCSF0SFQQnrOEMmVnOF59uMwixQ&callback=initMap" type="text/javascript"></script>
 <script>
+    $(document).ready(function() {
+
+        $('#startDate').change(function () {
+            var startDate = $(this).val();
+            $('#endDate').attr('min', startDate);
+        });
+
+        $('.book-room-btn').click(function () {
+        var roomId = $(this).data('room-id'); 
+        $('#room-id').val(roomId);
+        $('#bookingModal').modal('show');
+      });
+
+      $('#bookingForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '@Url.Action("SelectedHotel", "Hotel")', 
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = '@Url.Action("Index", "Home")?bookingSuccess=true';
+                } else {
+                    $("#errorMessageStartDate").empty();
+                    $("#errorMessageEndDate").empty();
+
+                    if (response.errors && response.errors.length > 0) {
+                        $("#errorMessageStartDate").append($('<span/>').text("Please, input correct data"));
+                            $("#errorMessageEndDate").append($('<span/>').text("Please, input correct data"));
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+      });
+    });
+
     function initMap() {
         var mapOptions = {
-            center: new google.maps.LatLng(@Model.Hotel.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture), @Model.Hotel.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)),
+            center: new google.maps.LatLng(@hotelModel.Hotel.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture), @hotelModel.Hotel.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)),
             zoom: 18
         };
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     }
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO70OxnCSF0SFQQnrOEMmVnOF59uMwixQ&callback=initMap" type="text/javascript"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

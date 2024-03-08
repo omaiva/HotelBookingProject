@@ -29,6 +29,12 @@ namespace HotelBookingProject.WebUI.Controllers
             {
                 User signedUser = _userManager.FindByEmailAsync(model.Email).Result;
 
+                if (signedUser == null)
+                {
+                    ModelState.AddModelError("", "The user doesn't exist");
+                    return View(model);
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)

@@ -26,6 +26,7 @@ namespace BookingProject.WebUI
             builder.Services.AddRazorPages();
 
             builder.Services.AddScoped<IHotelService, HotelService>();
+            builder.Services.AddScoped<IBookingService, BookingService>();
 
             var app = builder.Build();
 

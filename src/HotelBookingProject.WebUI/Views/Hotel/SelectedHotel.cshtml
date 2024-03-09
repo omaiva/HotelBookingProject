@@ -27,7 +27,7 @@
             <p>@hotelModel.Hotel.Description</p>
             <ul class="list-unstyled">
                 <li><strong>Number of Floors:</strong> @hotelModel.Hotel.NumberOfFloors</li>
-                <li><strong>City:</strong> @hotelModel.City.Name</li>
+                <li><strong>City:</strong> @hotelModel.Hotel.CityName</li>
                 <li class="d-flex justify-content-between">
                     <div>
                         <strong>Address:</strong> @hotelModel.Hotel.Street, @hotelModel.Hotel.HouseNumber
@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" asp-for="HotelRoomId" name="HotelRoomId" id="room-id"/>
-                                    <input type="hidden" asp-for="HotelId" />
+                                    <input type="hidden" asp-for="HotelId"/>
                                     <div class="form-btn">
                                         <button type="submit" class="submit-btn">Book Now</button>
                                     </div>

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using HotelBookingProject.Domain.Entities;
+using HotelBookingProject.WebUI.DTO;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace HotelBookingProject.WebUI.Controllers
 {
@@ -12,23 +15,28 @@ namespace HotelBookingProject.WebUI.Controllers
     {
         private readonly IHotelService _hotelService;
         private readonly IBookingService _bookingService;
+        private readonly IMapper _mapper;
 
-        public HotelController(IHotelService hotelService, IBookingService bookingService)
+        public HotelController(IHotelService hotelService, IBookingService bookingService, IMapper mapper)
         {
             _hotelService = hotelService;
             _bookingService = bookingService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> SelectedHotel(int hotelId)
         {
+            var hotel = await _hotelService.GetHotelById(hotelId);
+            var images = await _hotelService.GetImages();
+            var hotelRooms = await _hotelService.GetRoomsByHotelId(hotelId);
+
             var hotelModel = new SelectedHotelViewModel()
             {
                 HotelId = hotelId,
-                Hotel = await _hotelService.GetHotelById(hotelId),
-                HotelRooms = await _hotelService.GetRoomsByHotelId(hotelId),
-                Images = await _hotelService.GetImages(),
-                City = await _hotelService.GetCityById(hotelId)
+                Hotel = _mapper.Map<SelectedHotelUIDto>(hotel),
+                HotelRooms = _mapper.Map<IEnumerable<HotelRoomUIDto>>(hotelRooms),
+                Images = _mapper.Map<IEnumerable<ImageUIDto>>(images)
             };
 
             ViewBag.Hotel = hotelModel;
@@ -49,14 +57,16 @@ namespace HotelBookingProject.WebUI.Controllers
             }
 
             var hotelId = model.HotelId;
+            var hotel = await _hotelService.GetHotelById(hotelId);
+            var images = await _hotelService.GetImages();
+            var hotelRooms = await _hotelService.GetRoomsByHotelId(hotelId);
 
             var hotelModel = new SelectedHotelViewModel()
             {
                 HotelId = hotelId,
-                Hotel = await _hotelService.GetHotelById(hotelId),
-                HotelRooms = await _hotelService.GetRoomsByHotelId(hotelId),
-                Images = await _hotelService.GetImages(),
-                City = await _hotelService.GetCityById(hotelId)
+                Hotel = _mapper.Map<SelectedHotelUIDto>(hotel),
+                HotelRooms = _mapper.Map<IEnumerable<HotelRoomUIDto>>(hotelRooms),
+                Images = _mapper.Map<IEnumerable<ImageUIDto>>(images)
             };
 
             ViewBag.Hotel = hotelModel;

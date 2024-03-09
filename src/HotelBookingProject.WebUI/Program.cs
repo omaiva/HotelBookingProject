@@ -4,6 +4,7 @@ using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using HotelBookingProject.WebUI.MappingProfile;
 
 namespace BookingProject.WebUI
 {
@@ -25,8 +26,11 @@ namespace BookingProject.WebUI
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
             builder.Services.AddRazorPages();
 
-            builder.Services.AddScoped<IHotelService, HotelService>();
-            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+            builder.Services.AddTransient<IHotelService, HotelService>();
+            builder.Services.AddTransient<IBookingService, BookingService>();
+            builder.Services.AddHostedService<BookingStatusUpdaterService>();
 
             var app = builder.Build();
 

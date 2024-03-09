@@ -1,10 +1,10 @@
-﻿using HotelBookingProject.Domain.Entities;
+﻿using HotelBookingProject.WebUI.DTO;
 
 namespace HotelBookingProject.WebUI.Models
 {
     public class HotelListViewModel
     {
-        public IEnumerable<Hotel> Hotels { get; set; }
-        public IEnumerable<Image> Images { get; set; }
+        public IEnumerable<HotelUIDto> Hotels { get; set; }
+        public IEnumerable<ImageUIDto> Images { get; set; }
     }
 }

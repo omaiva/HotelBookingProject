@@ -1,4 +1,5 @@
-﻿using HotelBookingProject.Application.Interfaces;
+﻿using HotelBookingProject.Application.DTO;
+using HotelBookingProject.Application.Interfaces;
 using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -30,21 +31,9 @@ namespace HotelBookingProject.Application.Services
                 BookingStatusId = 1
             };
 
+            _context.HotelRooms.First(r => r.Id == roomId).IsAvailable = false;
+
             await _context.Bookings.AddAsync(booking);
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateBookingStatuses()
-        {
-            var today = DateTime.UtcNow.Date;
-            var bookingsToUpdate = _context.Bookings
-                                            .Where(b => b.EndDate < today && b.BookingStatusId == 1);
-
-            foreach (var booking in bookingsToUpdate)
-            {
-                booking.BookingStatusId = 2;
-            }
 
             await _context.SaveChangesAsync();
         }

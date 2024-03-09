@@ -9,6 +9,5 @@ namespace HotelBookingProject.Application.Interfaces
     public interface IBookingService
     {
         Task AddBooking(int userId, int roomId, DateTime startDate, DateTime endDate);
-        Task UpdateBookingStatuses();
     }
 }

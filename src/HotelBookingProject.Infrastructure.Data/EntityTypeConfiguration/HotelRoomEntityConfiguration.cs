@@ -40,12 +40,6 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
             builder.Property(p => p.Price)
                 .HasColumnType("decimal")
                 .HasPrecision(18,2);
-
-            builder.HasData(
-                new HotelRoom() { Id=1, Name= "Standard double room with 1 bed",
-                    Description= "Spacious room with elegant interiors, satellite TV and a private bathroom with bathrobes, slippers and free toiletries.",
-                    NumberOfBeds=2, HasBath=true, HasContidioning=true,HasWiFi=true,IsAvailable=true,Price = 100,HotelId=1,ImageId=2 }
-                );
         }
     }
 }

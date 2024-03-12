@@ -20,3 +20,28 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.nav-link {
+    font-size:18px;
+    position: relative;
+    color: #b5c1cc;
+}
+
+.nav-link:after {
+    content: "";
+    position: absolute;
+    background-color: lightblue;
+    height: 3px;
+    width: 0;
+    left: 0;
+    bottom: 0;
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+.nav-link:hover:after {
+    width: 100%;
+}

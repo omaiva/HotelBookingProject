@@ -1,4 +1,6 @@
-﻿using HotelBookingProject.Infrastructure.Data;
+﻿using HotelBookingProject.Domain.Enums;
+using HotelBookingProject.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelBookingProject.Application.Services
+namespace HotelBookingProject.Application.BackgroundServices
 {
     public class BookingStatusUpdaterService : BackgroundService
     {
@@ -27,7 +29,7 @@ namespace HotelBookingProject.Application.Services
                     var projectContext = scope.ServiceProvider.GetRequiredService<ProjectContext>();
                     await UpdateBookingsStatuses(projectContext);
                 }
-                
+
                 await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
             }
         }
@@ -35,14 +37,14 @@ namespace HotelBookingProject.Application.Services
         private async Task UpdateBookingsStatuses(ProjectContext projectContext)
         {
             var today = DateTime.UtcNow.Date;
-            var bookingsToUpdate = projectContext.Bookings
-                                            .Where(b => b.EndDate < today && b.BookingStatusId == 1)
-                                            .ToList();
+            var bookingsToUpdate = await projectContext.Bookings
+                                            .Where(b => b.EndDate < today && b.BookingStatusId == (int)BookingStatusType.Active)
+                                            .ToListAsync();
 
             foreach (var booking in bookingsToUpdate)
             {
                 projectContext.HotelRooms.First(r => r.Id == booking.HotelRoomId).IsAvailable = true;
-                booking.BookingStatusId = 2;
+                booking.BookingStatusId = (int)BookingStatusType.Closed;
             }
 
             await projectContext.SaveChangesAsync();

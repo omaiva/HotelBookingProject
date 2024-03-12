@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelBookingProject.Infrastructure.Data
+namespace HotelBookingProject.Infrastructure.Data.Extensions
 {
     public static class RegistrationExtension
     {

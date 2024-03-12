@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using HotelBookingProject.Infrastructure.Data.Extensions;
 
 namespace HotelBookingProject.Infrastructure.Data
 {
@@ -26,6 +27,8 @@ namespace HotelBookingProject.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProjectContext).Assembly);
+
+            modelBuilder.Seed();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HotelBookingProject.Application.DTO;
+using HotelBookingProject.Application.Models;
 using HotelBookingProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,13 +12,8 @@ namespace HotelBookingProject.Application.Interfaces
 {
     public interface IHotelService
     {
-        public Task<SelectedHotelDto> GetHotelById(int id);
-        public Task<IEnumerable<HotelDto>> GetHotelsById(int id);
-
-        public Task<IEnumerable<CityDto>> GetCities();
-
-        public Task<IEnumerable<ImageDto>> GetImages();
-
-        public Task<IEnumerable<HotelRoomDto>> GetRoomsByHotelId(int id);
+        Task<IndexModel> GetDataForIndex(int id);
+        Task<HotelListModel> GetDataForHotelList(int id);
+        Task<SelectedHotelModel> GetDataForSelectedHotel(int id);
     }
 }

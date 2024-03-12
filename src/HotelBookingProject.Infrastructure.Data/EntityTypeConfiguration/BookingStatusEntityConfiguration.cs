@@ -1,4 +1,5 @@
 ﻿using HotelBookingProject.Domain.Entities;
+using HotelBookingProject.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -14,12 +15,6 @@ namespace HotelBookingProject.Infrastructure.Data.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<BookingStatus> builder)
         {
             builder.HasKey(p => p.Id);
-
-            builder.HasData(
-                new BookingStatus() { Id=1,Description="Active"},
-                new BookingStatus() { Id = 2, Description = "Closed" },
-                new BookingStatus() { Id = 3, Description = "Canceled" }
-                );
         }
     }
 }

@@ -5,6 +5,8 @@ using HotelBookingProject.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using HotelBookingProject.WebUI.MappingProfile;
+using HotelBookingProject.Application.BackgroundServices;
+using HotelBookingProject.Infrastructure.Data.Extensions;
 
 namespace BookingProject.WebUI
 {

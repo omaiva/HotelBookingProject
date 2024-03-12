@@ -24,16 +24,9 @@ namespace BookingProject.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var cities = await _hotelService.GetCities();
-            var hotels = await _hotelService.GetHotelsById(1);
-            var images = await _hotelService.GetImages();
+            var dataModel = await _hotelService.GetDataForIndex(1);
 
-            var model = new IndexViewModel()
-            {
-                Cities = _mapper.Map<IEnumerable<CityUIDto>>(cities),
-                Hotels = _mapper.Map<IEnumerable<HotelUIDto>>(hotels),
-                Images = _mapper.Map<IEnumerable<ImageUIDto>>(images)
-            };
+            var model = _mapper.Map<IndexViewModel>(dataModel);
 
             return View(model);
         }
@@ -41,15 +34,10 @@ namespace BookingProject.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetHotelsByCityId(int cityId)
         {
-            var hotels = await _hotelService.GetHotelsById(cityId);
-            var images = await _hotelService.GetImages();
+            var dataModel = await _hotelService.GetDataForHotelList(cityId);
 
-            var model = new HotelListViewModel()
-            {
-                Hotels = _mapper.Map<IEnumerable<HotelUIDto>>(hotels),
-                Images = _mapper.Map<IEnumerable<ImageUIDto>>(images)
-            };
-            
+            var model = _mapper.Map<HotelListViewModel>(dataModel);
+
             return PartialView("HotelList", model);
         }
 

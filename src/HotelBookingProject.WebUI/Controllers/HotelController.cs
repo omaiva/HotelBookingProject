@@ -27,19 +27,11 @@ namespace HotelBookingProject.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> SelectedHotel(int hotelId)
         {
-            var hotel = await _hotelService.GetHotelById(hotelId);
-            var images = await _hotelService.GetImages();
-            var hotelRooms = await _hotelService.GetRoomsByHotelId(hotelId);
+            var dataModel = await _hotelService.GetDataForSelectedHotel(hotelId);
 
-            var hotelModel = new SelectedHotelViewModel()
-            {
-                HotelId = hotelId,
-                Hotel = _mapper.Map<SelectedHotelUIDto>(hotel),
-                HotelRooms = _mapper.Map<IEnumerable<HotelRoomUIDto>>(hotelRooms),
-                Images = _mapper.Map<IEnumerable<ImageUIDto>>(images)
-            };
+            var model = _mapper.Map<SelectedHotelViewModel>(dataModel);
 
-            ViewBag.Hotel = hotelModel;
+            ViewBag.Hotel = model;
 
             return View();
         }
@@ -57,19 +49,12 @@ namespace HotelBookingProject.WebUI.Controllers
             }
 
             var hotelId = model.HotelId;
-            var hotel = await _hotelService.GetHotelById(hotelId);
-            var images = await _hotelService.GetImages();
-            var hotelRooms = await _hotelService.GetRoomsByHotelId(hotelId);
 
-            var hotelModel = new SelectedHotelViewModel()
-            {
-                HotelId = hotelId,
-                Hotel = _mapper.Map<SelectedHotelUIDto>(hotel),
-                HotelRooms = _mapper.Map<IEnumerable<HotelRoomUIDto>>(hotelRooms),
-                Images = _mapper.Map<IEnumerable<ImageUIDto>>(images)
-            };
+            var dataModel = await _hotelService.GetDataForSelectedHotel(hotelId);
 
-            ViewBag.Hotel = hotelModel;
+            var newModel = _mapper.Map<SelectedHotelViewModel>(dataModel);
+
+            ViewBag.Hotel = newModel;
 
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return Json(new { success = false, errors = errors });

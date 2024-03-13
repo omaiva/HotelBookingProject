@@ -138,54 +138,23 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO70OxnCSF0SFQQnrOEMmVnOF59uMwixQ&callback=initMap" type="text/javascript"></script>
+<script src="~/js/selectedHotel.js"></script>
+
 <script>
-    $(document).ready(function() {
-
-        $('#startDate').change(function () {
-            var startDate = $(this).val();
-            $('#endDate').attr('min', startDate);
-        });
-
-        $('.book-room-btn').click(function () {
-        var roomId = $(this).data('room-id'); 
-        $('#room-id').val(roomId);
-        $('#bookingModal').modal('show');
-      });
-
-      $('#bookingForm').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '@Url.Action("SelectedHotel", "Hotel")', 
-            type: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    window.location.href = '@Url.Action("Index", "Home")?bookingSuccess=true';
-                } else {
-                    $("#errorMessageStartDate").empty();
-                    $("#errorMessageEndDate").empty();
-
-                    if (response.errors && response.errors.length > 0) {
-                        $("#errorMessageStartDate").append($('<span/>').text("Please, input correct data"));
-                            $("#errorMessageEndDate").append($('<span/>').text("Please, input correct data"));
-                    }
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
-      });
-    });
+    var bookingActionUrl = '@Url.Action("SelectedHotel", "Hotel")';
+    var homeUrl = '@Url.Action("Index", "Home")';
+    var hotelLatitude = @hotelModel.Hotel.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    var hotelLongitude = @hotelModel.Hotel.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
     function initMap() {
         var mapOptions = {
-            center: new google.maps.LatLng(@hotelModel.Hotel.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture), @hotelModel.Hotel.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)),
+            center: new google.maps.LatLng(hotelLatitude, hotelLongitude),
             zoom: 18
         };
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     }
 </script>
+
 
 @section Scripts {
     @{

@@ -39,13 +39,15 @@ namespace HotelBookingProject.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SelectedHotel(BookingModel model)
         {
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
+            {
+                return Json(new { success = false, errors = "User ID is not valid." });
+            }
 
             if (ModelState.IsValid)
             {
                 await _bookingService.AddBooking(userId, model.HotelRoomId, model.StartDate, model.EndDate);
-                TempData["BookingSuccess"] = "true";
-                return Json(new { success = true, message = "Booking successful!" });
+                return Json(new { success = true });
             }
 
             var hotelId = model.HotelId;

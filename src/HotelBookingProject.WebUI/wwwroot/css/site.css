@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  height:10vh;
 }
 
 @media (min-width: 768px) {
@@ -44,4 +45,39 @@ body {
 
 .nav-link:hover:after {
     width: 100%;
+}
+
+.navbar-brand {
+    position: relative;
+    color: black; 
+    font-size: calc(16px + 0.5vw);
+    font-weight: 500;
+    padding: 7px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    overflow: hidden; 
+    background-color: transparent;
+}
+
+.navbar-brand::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0; 
+    height: 3px; 
+    background-color: lightblue; 
+    transition: all 0.3s;
+    z-index: -1;
+}
+
+.navbar-brand:hover::after {    
+    top: auto; 
+    bottom: 0; 
+    height: 100%;
+}
+
+.navbar-brand:hover {
+    color: black; 
+    background-color: lightblue; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); 
 }

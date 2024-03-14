@@ -1,51 +1,12 @@
-﻿@model HotelBookingProject.WebUI.Models.HotelListViewModel;
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
 
-<style>
+@model HotelBookingProject.WebUI.Models.HotelListViewModel;
 
-    .hotel-info {
-        display: flex;
-        align-items: center; 
-        margin-bottom: 20px; 
-    }
+@inject IViewLocalizer Localizer
 
-    .hotel-image {
-        width: 30%; 
-        height: auto;
-        margin-right: 20px;
-    }
-
-    .content-wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        width: 100%; 
-    }
-
-    .text-content {
-        align-self: flex-start;
-    }
-
-    .see-more-button {
-        align-self:flex-end;
-        margin-top:auto;
-        padding: 5px 10px; 
-        font-size: 1rem; 
-        cursor: pointer;
-        border-radius: 15px; 
-        transition: all 0.3s ease; 
-        background-color: rgba(127, 219, 255, 0.8);
-        color: black; 
-        border: none;
-        transform: scale(1);
-        text-decoration: none;
-    }
-
-    .see-more-button:hover {
-        background-color: lightblue; 
-        transform: scale(0.95);
-    }
-
-</style>
+<head>
+    <link rel="stylesheet" href="~/css/hotelList.css">
+</head>
 
 @foreach (var hotel in Model.Hotels)
 {
@@ -56,7 +17,7 @@
                 <h4>@hotel.Name</h4>
                 <p>@hotel.Description</p>
             </div>
-            <a class="see-more-button" asp-controller="Hotel" asp-action="SelectedHotel" asp-route-hotelId="@hotel.Id">See more</a>
+            <a class="see-more-button" asp-controller="Hotel" asp-action="SelectedHotel" asp-route-hotelId="@hotel.Id">@Localizer["More"]</a>
         </div>
     </div>
 }

@@ -1,5 +1,9 @@
 ﻿@using HotelBookingProject.WebUI.Models;
+@using Microsoft.AspNetCore.Mvc.Localization;
+
 @model RegisterViewModel
+
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Register";
@@ -7,40 +11,40 @@
 
 <div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-4 card p-3">
-        <h2 class="text-center text-info">Register</h2>
+        <h2 class="text-center text-info">@Localizer["Register"]</h2>
         <form asp-action="Register" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-1">
-                <label asp-for="FirstName">First name</label>
+                <label asp-for="FirstName">@Localizer["FirstName"]</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="mb-1">
-                <label asp-for="LastName">Last name</label>
+                <label asp-for="LastName">@Localizer["LastName"]</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="mb-1">
-                <label asp-for="Email">Email</label>
+                <label asp-for="Email">@Localizer["Email"]</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-1">
-                <label asp-for="Password">Password</label>
+                <label asp-for="Password">@Localizer["Password"]</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="mb-1">
-                <label asp-for="ConfirmPassword">Confirm password</label>
+                <label asp-for="ConfirmPassword">@Localizer["ConfirmPassword"]</label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="row">
                 <div class="col-8">
-                    <a asp-action="Login" class="text-decoration-none float-start mt-2">Have an account?</a>
+                    <a asp-action="Login" class="text-decoration-none float-start mt-2">@Localizer["Account"]</a>
                 </div>
                 <div class="col-4">
-                    <input type="submit" value="Register" class="btn btn-primary btn-sm float-end" />
+                    <input type="submit" value="@Localizer["Register"]" class="btn btn-primary btn-sm float-end" />
                 </div>
             </div>
         </form>

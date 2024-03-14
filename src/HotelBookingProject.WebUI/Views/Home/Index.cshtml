@@ -1,4 +1,8 @@
-﻿@model HotelBookingProject.WebUI.Models.IndexViewModel;
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+
+@model HotelBookingProject.WebUI.Models.IndexViewModel;
+
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,7 +13,7 @@
 </head>
 
 <div class="sidebar">
-    <h3>Cities</h3>
+    <h3>@Localizer["Cities"]</h3>
     <div class="list-group">
         @foreach (var item in Model.Cities)
         {
@@ -27,4 +31,4 @@
 
 <script>
     var hotelUrl = '@Url.Action("GetHotelsByCityId", "Home")';
-</script>
+</script>   

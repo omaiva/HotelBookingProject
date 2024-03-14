@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using HotelBookingProject.Domain.Entities;
+@using Microsoft.AspNetCore.Mvc.Localization;
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject IViewLocalizer Localizer
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -10,17 +12,17 @@
     @if (User.IsInRole("Admin"))
     {
         <li class="nav-item">
-            <a class="nav-link" id="register" asp-controller="Admin" asp-action="Dashboard">Admin</a>
+            <a class="nav-link" id="register" asp-controller="Admin" asp-action="Dashboard">@Localizer["Admin"]</a>
         </li>
     }
     <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Your account - @User.Identity!.Name
+            @Localizer["Account"] - @User.Identity!.Name
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout">
-                    Logout
+                    @Localizer["Logout"]"
                 </a>
             </li>
         </ul>
@@ -29,10 +31,10 @@
 else
 {
     <li class="nav-item">
-            <a class="nav-link" id="register" asp-controller="Account" asp-action="Register">Register</a>
+            <a class="nav-link" id="register" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a>
     </li>
     <li class="nav-item">
-            <a class="nav-link" id="login" asp-controller="Account" asp-action="Login">Login</a>
+            <a class="nav-link" id="login" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
     </li>
 }
 </ul>

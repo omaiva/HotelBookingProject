@@ -1,5 +1,9 @@
 ﻿@using HotelBookingProject.WebUI.Models;
+@using Microsoft.AspNetCore.Mvc.Localization;
+
 @model LoginViewModel
+
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Login";
@@ -7,30 +11,30 @@
 
 <div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-3 card p-3">
-        <h2 class="text-center text-info">Login</h2>
+        <h2 class="text-center text-info">@Localizer["Login"]</h2>
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-1">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">@Localizer["Email"]</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-1">
-                <label asp-for="Password"></label>
+                <label asp-for="Password">@Localizer["Password"]</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="mb-1 form-check">
                 <label class="form-check-label">
-                    <input asp-for="RememberMe" class="form-check-input" />@Html.DisplayNameFor(a => a.RememberMe)
+                    <input asp-for="RememberMe" class="form-check-input" />@Localizer["RememberMe"]
                 </label>
             </div>
             <div class="row">
                 <div class="col-8">
-                    <a asp-action="Register" class="text-decoration-none float-start mt-2">Don't have an account?</a>
+                    <a asp-action="Register" class="text-decoration-none float-start mt-2">@Localizer["NoAccount"]</a>
                 </div>
                 <div class="col-4">
-                    <input type="submit" value="Login" class="btn btn-primary btn-sm float-end" />
+                    <input type="submit" value="@Localizer["Login"]" class="btn btn-primary btn-sm float-end" />
                 </div>
             </div>
         </form>

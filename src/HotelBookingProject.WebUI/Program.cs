@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using HotelBookingProject.WebUI.MappingProfile;
 using HotelBookingProject.Application.BackgroundServices;
 using HotelBookingProject.Infrastructure.Data.Extensions;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Humanizer.Localisation;
+using HotelBookingProject.WebUI;
 
 namespace BookingProject.WebUI
 {
@@ -22,11 +27,34 @@ namespace BookingProject.WebUI
             
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole<int>>()
-                .AddEntityFrameworkStores<ProjectContext>();
+                .AddEntityFrameworkStores<ProjectContext>()
+                .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            builder.Services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
             builder.Services.AddRazorPages();
+
+            builder.Services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("uk-UA")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -53,6 +81,8 @@ namespace BookingProject.WebUI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseRequestLocalization();
 
             app.UseAuthentication();
             app.UseAuthorization();

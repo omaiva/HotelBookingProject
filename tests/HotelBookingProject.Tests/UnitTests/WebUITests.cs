@@ -10,7 +10,7 @@ using AutoMapper;
 using HotelBookingProject.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
-using HotelBookingProject.WebUI.Models;
+using HotelBookingProject.WebUI.Models; 
 using HotelBookingProject.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingProject.Application.DTO;

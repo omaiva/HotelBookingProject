@@ -15,6 +15,12 @@
             <a class="nav-link" id="register" asp-controller="Admin" asp-action="Dashboard">@Localizer["Admin"]</a>
         </li>
     }
+    @if (User.IsInRole("User"))
+    {
+        <li class="nav-item">
+            <a class="nav-link" id="register" asp-controller="Cabinet" asp-action="PersonalCabinet">Cabinet</a>
+        </li>
+    }
     <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             @Localizer["Account"] - @User.Identity!.Name
@@ -22,7 +28,7 @@
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout">
-                    @Localizer["Logout"]"
+                    @Localizer["Logout"]
                 </a>
             </li>
         </ul>

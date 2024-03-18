@@ -73,6 +73,8 @@ namespace HotelBookingProject.WebUI.Controllers
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "User");
+
                     await _signInManager.SignInAsync(user, false);
 
                     return RedirectToAction("Index", "Home");

@@ -1,0 +1,87 @@
+﻿@using HotelBookingProject.Domain.Enums
+@using HotelBookingProject.WebUI.DTO;
+
+@model IEnumerable<BookingUIDto>
+
+<style>
+    .status-canceled {
+        background-color: #f8d7da; 
+    }
+
+    .status-active {
+        background-color: #d4edda;
+    }
+
+    .status-closed {
+        background-color: #d1ecf1; 
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Hotel Name</th>
+                <th scope="col">Room Name</th>
+                <th scope="col">Check In</th>
+                <th scope="col">Check Out</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                var statusClass = booking.Status == BookingStatusType.Canceled ? "status-canceled" :
+                    booking.Status == BookingStatusType.Active ? "status-active" :
+                    booking.Status == BookingStatusType.Closed ? "status-closed" : "";
+
+
+                <tr class="@statusClass">
+                    <td>@booking.Id</td>
+                    <td>@booking.HotelName</td>
+                    <td>@booking.RoomName</td>
+                    <td>@booking.StartDate.ToString("d")</td>
+                    <td>@booking.EndDate.ToString("d")</td>
+                    <td class="status-column">@booking.Status.ToString()</td>
+                    <td>
+                        <button class="btn btn-danger cancel-btn" data-booking-id="@booking.Id" @if (booking.Status == BookingStatusType.Closed || booking.Status == BookingStatusType.Canceled)
+                        {
+                            <text>disabled</text>
+                        }>Cancel</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.cancel-btn').click(function () {
+            var btn = $(this);
+            var bookingId = btn.data('booking-id');
+
+            if (!btn.is('[disabled]')) {
+                $.ajax({
+                    url: '@Url.Action("CancelBooking", "Cabinet")',
+                    type: 'POST',
+                    data: {bookingId: bookingId},
+                    success: function (response) {
+                        if (response.success) {
+                            btn.prop('disabled', true);
+                            btn.closest('tr').addClass('status-canceled');
+                            btn.closest('tr').find('.status-column').text('Canceled'); 
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error canceling booking.');
+                    }
+                });
+            }
+        });
+    });
+</script>

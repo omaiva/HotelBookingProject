@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Personal Cabinet";
+}
+
+<style>
+    .custom-sidebar {
+        margin-left: 0;
+        top: 60px;
+        bottom: 10vh;
+        left: 0;
+        position: fixed;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    .content {
+        margin-left: 20%;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse custom-sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link ajax-link" onclick="loadSection('Bookings')" href="#">
+                            Bookings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ajax-link" onclick="loadSection('Settings')" href="#">
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="content" id="sectionContent">
+    
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        function loadSection(sectionName) {
+            var url = '';
+            if (sectionName === 'Bookings') {
+                url = '/Cabinet/Bookings';
+            } else if (sectionName === 'Settings') {
+                url = '/Cabinet/Settings';
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    $('#sectionContent').html(data);
+                },
+                error: function () {
+                    alert('Error loading ' + sectionName + '.');
+                }
+            });
+        }
+
+        $('.ajax-link').on('click', function (e) {
+            e.preventDefault();
+            var sectionName = $(this).text().trim(); 
+            loadSection(sectionName);
+        });
+
+        loadSection('Bookings');
+    });
+
+</script>

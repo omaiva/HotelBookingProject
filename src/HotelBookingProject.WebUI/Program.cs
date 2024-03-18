@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Localization;
 using Humanizer.Localisation;
 using HotelBookingProject.WebUI;
 
-namespace BookingProject.WebUI
+namespace HotelBookingProject.WebUI
 {
     public class Program
     {
@@ -56,10 +56,11 @@ namespace BookingProject.WebUI
                 options.SupportedUICultures = supportedCultures;
             });
 
-            builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddAutoMapper(typeof(MappingProfile.MappingProfile));
 
             builder.Services.AddTransient<IHotelService, HotelService>();
             builder.Services.AddTransient<IBookingService, BookingService>();
+            builder.Services.AddTransient<ICabinetService, CabinetService>();
             builder.Services.AddHostedService<BookingStatusUpdaterService>();
 
             var app = builder.Build();

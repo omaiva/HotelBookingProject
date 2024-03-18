@@ -16,6 +16,7 @@ namespace HotelBookingProject.WebUI.MappingProfile
             CreateMap<ImageDto, ImageUIDto>();
             CreateMap<SelectedHotelDto, SelectedHotelUIDto>();
             CreateMap<HotelRoomDto, HotelRoomUIDto>();
+            CreateMap<BookingDto, BookingUIDto>();
 
             CreateMap<IndexModel,IndexViewModel>();
             CreateMap<HotelListModel, HotelListViewModel>();

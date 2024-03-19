@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
+using HotelBookingProject.Application.Filters;
 using HotelBookingProject.Application.Interfaces;
+using HotelBookingProject.Domain.Entities;
+using HotelBookingProject.Domain.Enums;
 using HotelBookingProject.WebUI.DTO;
+using HotelBookingProject.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -26,16 +30,36 @@ namespace HotelBookingProject.WebUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Bookings()
+        public async Task<IActionResult> Bookings(int currentPage = 1, string currentFilter = null, BookingStatusType? selectedStatus = null)
         {
             if (!int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
             {
-                return Json(new { success = false, errors = "User ID is not valid." });
+                return Json(new { success = false, message = "User ID is not valid." });
             }
 
-            var dataModel = await _cabinetService.GetBookings(userId);
+            var filter = new BookingFilter
+            {
+                PageNumber = currentPage,
+                PageSize = 10, 
+                CurrentFilter = currentFilter,
+                SelectedStatus = selectedStatus
+            };
 
-            var model = _mapper.Map<IEnumerable<BookingUIDto>>(dataModel);
+            var bookings = await _cabinetService.GetBookings(userId, filter);
+
+            // Assuming your service now returns the total count within the Bookings collection, or you have a separate method to get the count.
+            // You might need to adjust this if your service method signature or logic differs.
+            var totalBookings = await _cabinetService.GetTotalBookingsCount(userId, filter); // This is a hypothetical method.
+            var totalPages = (int)Math.Ceiling((double)totalBookings / filter.PageSize);
+
+            var model = new BookingsViewModel
+            {
+                Bookings = _mapper.Map<IEnumerable<BookingUIDto>>(bookings),
+                CurrentPage = filter.PageNumber,
+                TotalPages = totalPages,
+                CurrentFilter = filter.CurrentFilter,
+                SelectedStatus = filter.SelectedStatus
+            };
 
             return PartialView("Bookings", model);
         }

@@ -1,4 +1,5 @@
 ﻿using HotelBookingProject.Application.DTO;
+using HotelBookingProject.Application.Filters;
 using HotelBookingProject.Application.Interfaces;
 using HotelBookingProject.Domain.Entities;
 using HotelBookingProject.Domain.Enums;
@@ -31,9 +32,31 @@ namespace HotelBookingProject.Application.Services
             await _projectContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<BookingDto>> GetBookings(int userId)
+        public async Task<int> GetTotalBookingsCount(int userId, BookingFilter filter)
         {
-            var bookingEntities = await _projectContext.Bookings.Where(b => b.UserId == userId).ToListAsync();
+            var query = _projectContext.Bookings.AsQueryable().Where(b => b.UserId == userId);
+
+            if (filter.SelectedStatus.HasValue)
+            {
+                query = query.Where(b => b.BookingStatusId == (int)filter.SelectedStatus.Value);
+            }
+
+            return await query.CountAsync();
+        }
+
+        public async Task<IEnumerable<BookingDto>> GetBookings(int userId, BookingFilter filter)
+        {
+            var query = _projectContext.Bookings.AsQueryable().Where(b => b.UserId == userId);
+
+            if (filter.SelectedStatus.HasValue)
+            {
+                query = query.Where(b => b.BookingStatusId == (int)filter.SelectedStatus.Value);
+            }
+
+            var skipAmount = (filter.PageNumber - 1) * filter.PageSize;
+            var paginatedQuery = query.Skip(skipAmount).Take(filter.PageSize);
+
+            var bookingEntities = await paginatedQuery.ToListAsync();
 
             var bookings = bookingEntities.Select(b => new BookingDto
             {

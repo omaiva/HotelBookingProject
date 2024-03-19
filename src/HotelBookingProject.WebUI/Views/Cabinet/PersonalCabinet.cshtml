@@ -48,6 +48,7 @@
 <script>
 
     $(document).ready(function () {
+
         function loadSection(sectionName) {
             var url = '';
             if (sectionName === 'Bookings') {
@@ -75,6 +76,46 @@
         });
 
         loadSection('Bookings');
+
+        $(document).on('click', '.pagination-link', function (e) {
+            e.preventDefault();
+            var pageNumber = $(this).data('page-number');
+            loadPage(pageNumber);
+        });
+
+        function loadPage(pageNumber) {
+            $.ajax({
+                url: '/Cabinet/Bookings?currentPage=' + pageNumber,
+                type: 'GET',
+                success: function (data) {
+
+                    $('#sectionContent').html(data);
+                },
+                error: function () {
+                    alert('Error loading page.');
+                }
+            });
+        }
+
+        $(document).on('submit', '#filterForm', function (e) {
+            e.preventDefault(); 
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: form.attr('method'),
+                url: url,
+                data: form.serialize(), 
+                success: function (data) {
+                    $('#sectionContent').html(data);
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+
     });
 
 </script>

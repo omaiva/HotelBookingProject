@@ -1,1 +1,24 @@
-﻿
+﻿@model HotelBookingProject.WebUI.Models.SettingsViewModel;
+
+<form id="nameForm" action="@Url.Action("Settings", "Cabinet")" method="post">
+
+    <div class="form-group">
+        <label asp-for="FirstName">First Name</label>
+        <input asp-for="FirstName" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName">Last Name</label>
+        <input asp-for="LastName" class="form-control" disabled />
+    </div>
+    <button id="changeBtn" class="btn btn-primary">Change</button>
+    <button type="submit" class="btn btn-success" id="updateBtn" disabled>Update</button>
+</form>
+
+<script>
+    document.getElementById("changeBtn").addEventListener("click", function () {
+        document.querySelectorAll("#nameForm input").forEach(input => input.disabled = false);
+        document.getElementById("updateBtn").disabled = false;
+        this.disabled = "true";
+    });
+</script>
